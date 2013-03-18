@@ -189,6 +189,7 @@ object OrgParser extends RegexParsers {
           <style type="text/css" media="screen">
             body {{ padding-top: 60px; }}
             code {{ background-color: #fff; border: none; }}
+            h1, h2, h3, h4 {{ padding-top:50px; margin-top:-50px; }}
           </style>
         </head>
         <body>
