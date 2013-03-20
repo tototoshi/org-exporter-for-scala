@@ -22,6 +22,7 @@ object OrgParserBuild extends Build {
         }
       },
       libraryDependencies ++= Seq(
+        "com.github.scopt" %% "scopt" % "2.1.0",
         "commons-io" % "commons-io" % "2.4"
       )
     )
