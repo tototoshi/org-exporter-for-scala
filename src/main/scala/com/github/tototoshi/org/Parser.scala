@@ -81,19 +81,21 @@ trait Parser extends RegexParsers with Documents {
 
   }
 
+  private def image: Parser[Image] = {
+    def charsInBlock = """[^]]+""".r
+    between("[[file:", charsInBlock, "]]") ^^ { case path => Image(path) }
+  }
+
   private def link: Parser[Link] = {
     def charsInBlock = """[^]]+""".r
     def url = {
       def anyCharsNotWhitespace = """[^\s]+""".r
       """https?://""".r ~ anyCharsNotWhitespace ^^ { case scheme ~ url => Link(scheme + url, scheme + url) }
     }
-    def file = {
-      between("[[", charsInBlock, "]]") ^^ { case path => Link(path, path) }
-    }
     def namedUrl = {
       between("[[", (charsInBlock <~ "][") ~ charsInBlock, "]]") ^^ { case label ~ url => Link(label, url) }
     }
-    url | namedUrl | file
+    url | namedUrl
   }
 
   private def example: Parser[Document] = {
@@ -116,7 +118,7 @@ trait Parser extends RegexParsers with Documents {
 
   private def plainText: Parser[Document] = rep1(not(space) ~> anyChar) ^^ { case xs => PlainText(xs.mkString) }
   private def spaceToken: Parser[Document] = space ^^ { PlainText(_) }
-  private def richText: Parser[RichText] = rep(link | plainText | spaceToken) ^^ {
+  private def richText: Parser[RichText] = rep(link | image | plainText | spaceToken) ^^ {
     case xs => RichText(xs)
   }
 

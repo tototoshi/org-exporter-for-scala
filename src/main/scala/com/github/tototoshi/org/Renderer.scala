@@ -52,6 +52,7 @@ trait Renderer extends Documents {
       case Example(src) => <pre>{ src }</pre>
       case Source(src, lang) => <pre class={ "sh_" + lang }>{ src }</pre>
       case Link(url, label) => <a href={ url }>{ label }</a>
+      case Image(src) => <img src={ src }/>
       case H2(text) => <h2>{ text }</h2>
       case H3(text) => <h3>{ text }</h3>
       case H4(text) => <h4>{ text }</h4>

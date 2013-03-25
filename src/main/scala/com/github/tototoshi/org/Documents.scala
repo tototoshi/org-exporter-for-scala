@@ -19,6 +19,8 @@ trait Documents {
   sealed abstract class Document
   class Header extends Document
 
+  case class Image(src: String) extends Document
+
   case class Link(label: String, url: String) extends Document
   case class RichText(text: List[Document]) extends Document
   case class PlainText(text: String) extends Document {
